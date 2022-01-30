@@ -28,13 +28,51 @@ namespace bulkybookname.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
+            if(obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("CustomError", "They cannot be dup");
+            }
             if (ModelState.IsValid)
             {
                 _db.categories.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(obj); 
+        }
+
+        //GET
+
+        public IActionResult Edit(int? id)
+        {
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var categoryDb = _db.categories.Find(id);
+            
+            if(categoryDb == null)
+            {
+                return NotFound();
+            }
+            return View(categoryDb);
+        }
+
+        //POST
+
+        public IActionResult Edit(Category obj)
+        {
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("CustomError", "They cannot be dup");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _db.categories.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

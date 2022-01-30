@@ -8,16 +8,17 @@
             </h2>
             <hr />
         </div>
+        @*<div asp-validation-summary = "All"></div> *@
         <div class = "mb-3">
             <label asp-for = "Name"></label>
             <input asp-for = "Name" class = "form-control" />
-            <span asp-validation-for = "Name" class = "text-warning"></span>
+            <span asp-validation-for = "Name" class = "text-light"></span>
 
         </div>
         <div class = "mb-3">
             <label asp-for = "DisplayOrder"></label>
             <input asp-for = "DisplayOrder" class = "form-control" />
-            <span asp-validation-for = "DisplayOrder" class = "text-warning"></span>
+            <span asp-validation-for = "DisplayOrder" class = "text-light"></span>
         </div>
         <button type = "submit" class = "btn btn-primary" style = "width : 150px">Create</button>
         <a asp-controller = "Category" asp-action = "Index" class = "btn btn-secondary" style = "width:150px">
@@ -25,3 +26,9 @@
         </a>
     </div>
 </form>
+
+@section Scripts{
+    @{
+    <partial name = "_ValidationScriptsPartial" />
+    }
+}
