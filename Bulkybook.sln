@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bulkybookname", "bulkybookname\bulkybookname.csproj", "{0488FD4B-E2EF-4425-8666-EB1839C58CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBookWeb", "bulkybookname\BulkyBookWeb.csproj", "{0488FD4B-E2EF-4425-8666-EB1839C58CC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.DataAccess", "BulkyBook.DataAccess\BulkyBook.DataAccess.csproj", "{36DB1CEB-7DC5-46A1-8DD5-1F2CD74D729F}"
 EndProject
