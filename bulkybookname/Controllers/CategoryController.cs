@@ -59,7 +59,8 @@ namespace bulkybookname.Controllers
         }
 
         //POST
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Category obj)
         {
             if (obj.Name == obj.DisplayOrder.ToString())
@@ -69,10 +70,44 @@ namespace bulkybookname.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.categories.Add(obj);
+                _db.categories.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            return View(obj);
+        }
+
+        //GET
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var categoryDb = _db.categories.Find(id);
+
+            if (categoryDb == null)
+            {
+                return NotFound();
+            }
+            return View(categoryDb);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var obj = _db.categories.Find(id);
+            if (obj == null) 
+            {
+                return NotFound();
+            }
+                _db.categories.Remove(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
         }
     }
 }
