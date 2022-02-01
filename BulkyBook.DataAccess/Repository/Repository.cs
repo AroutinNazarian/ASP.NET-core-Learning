@@ -12,9 +12,9 @@ namespace BulkyBook.DataAccess.Repository
     public class Repository<T> : IRepository<T> where T : class
     {
 
-        private readonly ApplicationDBcontext _db;
-        internal DbSet<T> dbSet;
-       
+        private  ApplicationDBcontext _db;
+        private DbSet<T> dbSet;
+
         public Repository(ApplicationDBcontext db)
         {
             _db = db; 
@@ -38,6 +38,11 @@ namespace BulkyBook.DataAccess.Repository
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
             return query.FirstOrDefault(); 
+        }
+
+        public T GetT(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public void remove(T entity)
