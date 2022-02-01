@@ -11,41 +11,34 @@ namespace BulkyBook.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-
-        private  ApplicationDBcontext _db;
-        private DbSet<T> dbSet;
+       
+        private readonly ApplicationDBcontext _db;
+        internal DbSet<T> dbSet;
 
         public Repository(ApplicationDBcontext db)
         {
-            _db = db; 
+            _db = db;
             this.dbSet = _db.Set<T>();
-            
         }
-        
-        public void add(T entity)
+        public void Add(T entity)
         {
-             dbSet.Add(entity);
+            dbSet.Add(entity);
         }
 
         public IEnumerable<T> GetAll()
         {
-            IQueryable<T> query = dbSet;
-            return query.ToList();
+            IQueryable<T> query = dbSet;   
+            return query.ToList(); 
         }
 
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
-            return query.FirstOrDefault(); 
-        }
+            return query.FirstOrDefault();
+         }
 
-        public T GetT(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void remove(T entity)
+        public void Remove(T entity)
         {
             dbSet.Remove(entity);
         }

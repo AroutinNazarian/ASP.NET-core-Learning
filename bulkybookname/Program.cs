@@ -1,5 +1,7 @@
 
 using BulkyBook.DataAccess;
+using BulkyBook.DataAccess.Repository;
+using BulkyBook.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDBcontext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
    .AddNegotiate();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddAuthorization(options =>

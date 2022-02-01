@@ -9,16 +9,14 @@ namespace BulkyBook.DataAccess.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        //T-Category
 
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
         IEnumerable<T> GetAll();
-        void add(T entity);
-        T GetT(int id);
-        void remove(T entity);
+
+        void Add(T entity);
+
+        void Remove(T entity);
+
         void removeRange(IEnumerable<T> entity);
-
-        
-
     }
 }
