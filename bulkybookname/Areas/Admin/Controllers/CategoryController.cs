@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace bulkybookname.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
+        
         private readonly IUnitOfWork _unitOfWork;
 
         public CategoryController(IUnitOfWork unitOfWork)
