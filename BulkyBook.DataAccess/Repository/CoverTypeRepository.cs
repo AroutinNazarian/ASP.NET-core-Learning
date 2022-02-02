@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BulkyBook.DataAccess.Repository
 {
-    public class CoverTypeRepository : Repository<CoverType>, ICovertypeRepository
+    public class CoverTypeRepository : Repository<CoverType>, ICoverTypeRepository
     {
         private ApplicationDBcontext _db;
         public CoverTypeRepository(ApplicationDBcontext db) : base(db)

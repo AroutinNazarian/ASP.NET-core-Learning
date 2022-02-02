@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace bulkybookname.Controllers
 {
     [Area("Admin")]
-    public class CategoryController : Controller
+    public class CoverTypeController : Controller
     {
         
         private readonly IUnitofwork _unitOfWork;
 
-        public CategoryController(IUnitofwork unitOfWork)
+        public CoverTypeController(IUnitofwork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            IEnumerable<Category> objCategoryList = _unitOfWork.Category.GetAll();
-            return View(objCategoryList);
+            IEnumerable<CoverType> objCoverTypeList = _unitOfWork.CoverType.GetAll();
+
+            return View(objCoverTypeList);
         }
         //GET
         public IActionResult Create()
@@ -30,15 +31,12 @@ namespace bulkybookname.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category obj)
+        public IActionResult Create(CoverType obj)
         {
-            if(obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("CustomError", "They cannot be dup");
-            }
+            
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Add(obj);
+                _unitOfWork.CoverType.Add(obj);
                 _unitOfWork.Save();
                 TempData["Success"] = "Created successfully";
                 return RedirectToAction("Index");
@@ -54,29 +52,25 @@ namespace bulkybookname.Controllers
             {
                 return NotFound();
             }
-            var categoryFromDbFirst = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
+            var covertypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
             
-            if(categoryFromDbFirst == null)
+            if(covertypeFromDbFirst == null)
             {
                 return NotFound();
             }
             
-            return View(categoryFromDbFirst);
+            return View(covertypeFromDbFirst);
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category obj)
+        public IActionResult Edit(CoverType obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("CustomError", "They cannot be dup");
-            }
-
+            
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Update(obj);
+                _unitOfWork.CoverType.Update(obj);
                 _unitOfWork.Save();
                 TempData["Success"] = "Edited successfully";
                 return RedirectToAction("Index");
@@ -93,13 +87,13 @@ namespace bulkybookname.Controllers
             {
                 return NotFound();
             }
-            var categoryFromDbFirst = _unitOfWork.Category.GetFirstOrDefault(u => u. Id == id);
+            var covertypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u => u. Id == id);
 
-            if (categoryFromDbFirst == null)
+            if (covertypeFromDbFirst == null)
             {
                 return NotFound();
             }
-            return View(categoryFromDbFirst);
+            return View(covertypeFromDbFirst);
         }
 
         //POST
@@ -107,12 +101,12 @@ namespace bulkybookname.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var obj = _unitOfWork.Category.GetFirstOrDefault(u => u. Id == id);
+            var obj = _unitOfWork.CoverType.GetFirstOrDefault(u => u. Id == id);
             if (obj == null) 
             {
                 return NotFound();
             }
-            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.CoverType.Remove(obj);
             _unitOfWork.Save();
                 TempData["Success"] = "Deleted successfully";
                 return RedirectToAction("Index");

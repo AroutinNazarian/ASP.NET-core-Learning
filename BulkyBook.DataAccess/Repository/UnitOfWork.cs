@@ -7,22 +7,21 @@ using System.Threading.Tasks;
 
 namespace BulkyBook.DataAccess.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitofwork
     {
         private ApplicationDBcontext _db;
-
         public UnitOfWork(ApplicationDBcontext db)
         {
             _db = db;
             Category = new CategoryRepository(_db);
-            Covertype = new CoverTypeRepository(_db);
+            CoverType = new CoverTypeRepository(_db);
         }
         public ICategoryRepository Category { get; private set; }
-        public ICovertypeRepository Covertype { get; private set; }
+        public ICoverTypeRepository CoverType { get; private set; }
 
         public void Save()
         {
             _db.SaveChanges();
         }
-    }
+    }  
 }

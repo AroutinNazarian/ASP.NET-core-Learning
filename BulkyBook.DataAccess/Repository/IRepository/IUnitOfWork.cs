@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BulkyBook.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IUnitofwork
     {
+
         ICategoryRepository Category { get; }
 
-        ICovertypeRepository Covertype { get; }
-
-        void Save();
+        ICoverTypeRepository CoverType { get; }
+         void Save();
     }
 }
