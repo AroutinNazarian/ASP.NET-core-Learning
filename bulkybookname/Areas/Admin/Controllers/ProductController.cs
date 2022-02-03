@@ -46,20 +46,21 @@ namespace bulkybookname.Controllers
 
         //GET
 
-        public IActionResult Edit(int? id)
+        public IActionResult Upsert(int? id)
         {
+            Product product = new Product();
+            //creating product
             if (id == null || id == 0)
             {
-                return NotFound();
+                return View(product);
             }
-            var covertypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
-
-            if (covertypeFromDbFirst == null)
+            else
             {
-                return NotFound();
-            }
+                //updating product
 
-            return View(covertypeFromDbFirst);
+
+            }
+            return View(product);
         }
 
         //POST
