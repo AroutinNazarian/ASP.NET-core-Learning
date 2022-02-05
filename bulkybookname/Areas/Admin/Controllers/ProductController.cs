@@ -2,6 +2,7 @@
 using BulkyBook.DataAccess;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -14,16 +15,17 @@ namespace bulkybookname.Controllers
     {
 
         private readonly IUnitofwork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(IUnitofwork unitOfWork)
+        public ProductController(IUnitofwork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
-            IEnumerable<CoverType> objCoverTypeList = _unitOfWork.CoverType.GetAll();
-
-            return View(objCoverTypeList);
+     
+            return View();
         }
         //GET
         public IActionResult Create()
@@ -50,7 +52,7 @@ namespace bulkybookname.Controllers
         //GET
 
         public IActionResult Upsert(int? id)
-        {
+        { 
             ProductVM productVM = new()
             {
                 product = new(),
@@ -92,14 +94,28 @@ namespace bulkybookname.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CoverType obj)
+        public IActionResult Upsert(ProductVM obj, IFormFile?  file)
         {
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.CoverType.Update(obj);
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if(file != null)
+                {
+                    string filename = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\Products");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, filename + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    obj.product.Imageurl = @"\Images\Products\" + filename + extension;
+                }
+
+                _unitOfWork.Product.Add(obj.product);
                 _unitOfWork.Save();
-                TempData["Success"] = "Edited successfully";
+                TempData["Success"] = "Product added successfully";
                 return RedirectToAction("Index");
             }
 
@@ -107,7 +123,6 @@ namespace bulkybookname.Controllers
         }
 
         //GET
-
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -138,5 +153,14 @@ namespace bulkybookname.Controllers
             TempData["Success"] = "Deleted successfully";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll();
+            return Json(new { data = productList });
+        }
+        #endregion
     }
 }

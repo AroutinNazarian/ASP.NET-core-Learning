@@ -75,10 +75,10 @@ namespace bulkybookname.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CoverTypeID")
+                    b.Property<int>("CoverTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -98,7 +98,7 @@ namespace bulkybookname.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageURL")
+                    b.Property<string>("Imageurl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -111,7 +111,9 @@ namespace bulkybookname.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CoverTypeId");
 
                     b.ToTable("Products");
                 });
@@ -120,13 +122,13 @@ namespace bulkybookname.Migrations
                 {
                     b.HasOne("BulkyBook.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryID")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BulkyBook.Models.CoverType", "CoverType")
                         .WithMany()
-                        .HasForeignKey("CategoryID")
+                        .HasForeignKey("CoverTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

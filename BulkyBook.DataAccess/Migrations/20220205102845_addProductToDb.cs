@@ -22,31 +22,36 @@ namespace bulkybookname.Migrations
                     FinalPrice = table.Column<double>(type: "float", nullable: false),
                     FinalPrice50 = table.Column<double>(type: "float", nullable: false),
                     FinalPrice100 = table.Column<double>(type: "float", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
-                    CoverTypeID = table.Column<int>(type: "int", nullable: false)
+                    Imageurl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CoverTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_categories_CategoryID",
-                        column: x => x.CategoryID,
+                        name: "FK_Products_categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Products_CoverTypes_CategoryID",
-                        column: x => x.CategoryID,
+                        name: "FK_Products_CoverTypes_CoverTypeId",
+                        column: x => x.CoverTypeId,
                         principalTable: "CoverTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryID",
+                name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "CategoryID");
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CoverTypeId",
+                table: "Products",
+                column: "CoverTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
