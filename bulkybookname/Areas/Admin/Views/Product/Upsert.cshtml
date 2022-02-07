@@ -2,8 +2,14 @@
 
 
 <form method = "post" asp-action = "Upsert" enctype = "multipart/form-data">
-    <div class = "border p-3 mt-4 row">
-        <div class = "row pb-2">
+    <input asp-for = "product.Id" hidden />
+    <input asp-for = "product.Imageurl" hidden />
+
+    <div class = "row">
+        <div class = "col-10">
+            <div class = "border p-3 mt-4 row">
+
+        <div class = "col-12 pb-2">
             <h2 class = "text-primary">@(Model.product.Id!=0?"Update" : "Create")
                  Product
             </h2>
@@ -39,19 +45,19 @@
             <span asp-validation-for = "product.ListPrice" class = "text-danger"></span>
         </div> 
         <div class = "mb-3 col-6">
-            <label asp-for = "product.FinalPrice"></label>
-            <input asp-for = "product.FinalPrice" class = "form-control" />
-            <span asp-validation-for = "product.FinalPrice" class = "text-danger"></span>
+            <label asp-for = "product.Price"></label>
+            <input asp-for = "product.Price" class = "form-control" />
+            <span asp-validation-for = "product.Price" class = "text-danger"></span>
         </div>
         <div class = "mb-3 col-6">
-            <label asp-for = "product.FinalPrice50"></label>
-            <input asp-for = "product.FinalPrice50" class = "form-control" />
-            <span asp-validation-for = "product.FinalPrice50" class = "text-danger"></span>
+            <label asp-for = "product.Price50"></label>
+            <input asp-for = "product.Price50" class = "form-control" />
+            <span asp-validation-for = "product.Price50" class = "text-danger"></span>
         </div>
         <div class = "mb-3 col-6">
-            <label asp-for = "product.FinalPrice100"></label>
-            <input asp-for = "product.FinalPrice100" class = "form-control" />
-            <span asp-validation-for = "product.FinalPrice100" class = "text-danger"></span>
+            <label asp-for = "product.Price100"></label>
+            <input asp-for = "product.Price100" class = "form-control" />
+            <span asp-validation-for = "product.Price100" class = "text-danger"></span>
         </div> 
         <div class = "mb-3">
             <label asp-for = "product.Imageurl"></label>
@@ -85,6 +91,14 @@
         </a>
         </div>
     </div> 
+        </div>
+        <div class = "col-2">
+            <img src = "@Model.product.Imageurl"
+            width = "100%" style = "border-radius:5px; border:1px solid #bbb9b9" />
+        </div>
+    </div>
+
+    
 </form>
 
 @section Scripts{

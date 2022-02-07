@@ -85,15 +85,6 @@ namespace bulkybookname.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("FinalPrice")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FinalPrice100")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FinalPrice50")
-                        .HasColumnType("float");
-
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,6 +94,15 @@ namespace bulkybookname.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("ListPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Price100")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Price50")
                         .HasColumnType("float");
 
                     b.Property<string>("Title")

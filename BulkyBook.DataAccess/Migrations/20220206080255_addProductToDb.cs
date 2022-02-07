@@ -19,9 +19,9 @@ namespace bulkybookname.Migrations
                     ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ListPrice = table.Column<double>(type: "float", nullable: false),
-                    FinalPrice = table.Column<double>(type: "float", nullable: false),
-                    FinalPrice50 = table.Column<double>(type: "float", nullable: false),
-                    FinalPrice100 = table.Column<double>(type: "float", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Price50 = table.Column<double>(type: "float", nullable: false),
+                    Price100 = table.Column<double>(type: "float", nullable: false),
                     Imageurl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     CoverTypeId = table.Column<int>(type: "int", nullable: false)

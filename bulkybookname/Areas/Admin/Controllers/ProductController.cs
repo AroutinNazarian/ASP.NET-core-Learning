@@ -85,7 +85,8 @@ namespace bulkybookname.Controllers
             else
             {
                 //updating product
-
+                productVM.product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
+                return View(productVM);
 
             }
             return View(productVM);
@@ -106,6 +107,16 @@ namespace bulkybookname.Controllers
                     var uploads = Path.Combine(wwwRootPath, @"images\Products");
                     var extension = Path.GetExtension(file.FileName);
 
+                    //existing image(checking if image is availabe or not)
+                    if (obj.product.Imageurl != null)
+                    {
+                        var oldImage = Path.Combine(wwwRootPath, obj.product.Imageurl.TrimStart('\\'));
+                        if(System.IO.File.Exists(oldImage))
+                        {
+                            System.IO.File.Delete(oldImage);
+                        }
+                    }
+
                     using (var fileStreams = new FileStream(Path.Combine(uploads, filename + extension), FileMode.Create))
                     {
                         file.CopyTo(fileStreams);
@@ -113,7 +124,17 @@ namespace bulkybookname.Controllers
                     obj.product.Imageurl = @"\Images\Products\" + filename + extension;
                 }
 
-                _unitOfWork.Product.Add(obj.product);
+                if(obj.product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(obj.product);
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(obj.product);
+
+                }
+
+
                 _unitOfWork.Save();
                 TempData["Success"] = "Product added successfully";
                 return RedirectToAction("Index");
@@ -122,44 +143,35 @@ namespace bulkybookname.Controllers
             return View(obj);
         }
 
-        //GET
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var covertypeFromDbFirst = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
-
-            if (covertypeFromDbFirst == null)
-            {
-                return NotFound();
-            }
-            return View(covertypeFromDbFirst);
-        }
-
-        //POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
-        {
-            var obj = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.CoverType.Remove(obj);
-            _unitOfWork.Save();
-            TempData["Success"] = "Deleted successfully";
-            return RedirectToAction("Index");
-        }
 
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll()
         {
-            var productList = _unitOfWork.Product.GetAll();
-            return Json(new { data = productList });
+            var productList = _unitOfWork.Product.GetAll(includeProperties:"Category,CoverType");
+            return Json(new{data = productList});
+        }
+
+        //POST
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var obj = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
+            if (obj == null)
+            {
+                return Json(new { success = false, message = "Error while Deleting" });
+            }
+            else
+            {
+                var oldImage = Path.Combine(_webHostEnvironment.WebRootPath, obj.Imageurl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldImage))
+                {
+                    System.IO.File.Delete(oldImage);
+                }
+                _unitOfWork.Product.Remove(obj);
+                _unitOfWork.Save();
+                return Json(new { success = true, message = "Deleted Successfully" });
+            }
         }
         #endregion
     }
